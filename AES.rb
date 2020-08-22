@@ -77,30 +77,6 @@ class AES
   RCon = Rc.each.map{|x| [x.to_s(2),'0'*8,'0'*8,'0'*8]}
 
 
-
-  # Gets rc for Round constant RCon = [rc 0 0 0] for 128 bit key
-  def self.get_rc(i,rc)
-    if(i==0)
-      return 1
-    elsif(i>0 and rc[i-1]<('80'.to_i(16)))
-      return 2*rc[i-1]
-    elsif(i>1 and rc[i-1] >= '80'.to_i(16))
-      return (2*rc[i-1]) ^ '11B'.to_i(16)
-    end
-  end
-
-  # Gets the entire arr for rc given a parameter
-  # Gets called with 9 for 128  bit encryption
-  # Should be called with 11 for 192 and 13 for 256
-  def self.get_rc_array(i)
-    rc=[]
-    for i in 0..i
-      rc << self.get_rc(i,rc)
-    end
-    rc
-  end
-
-
   def self.makeKey(hexKey, encryptionType)
     tmp = hexKey.each_char.map{|x| self.makeLen(x.to_i(16).to_s(2), 4)}
     tmp2 = tmp.join
