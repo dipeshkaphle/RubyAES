@@ -65,6 +65,8 @@ class AES
 
 
 
+  # Everything below are helper methods
+
 
   @W =[]
 
@@ -102,6 +104,9 @@ class AES
   def self.makeKey(hexKey, encryptionType)
     tmp = hexKey.each_char.map{|x| self.makeLen(x.to_i(16).to_s(2), 4)}
     tmp2 = tmp.join
+    if(tmp2.length > encryptionType)
+      tmp2 = tmp2[..(encryptionType-1)]
+    end
     binKey = tmp2 + '0'*(encryptionType - (tmp2.length))
     # THis is for round key generation
     byteKeyArr = (binKey.each_char.map {|y| y }).each_slice(8).map{|x| x.join }
