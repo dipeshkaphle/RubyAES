@@ -66,16 +66,15 @@ class AES
 
 
 
-  private
-
-
+  @W =[]
 
   InvMixColMatrix = Matrix[[14,11,13,9],[9,14,11,13],[13,9,14,11],[11,13,9,14]]
   MixColMat = Matrix[[2,3,1,1],[1,2,3,1],[1,1,2,3],[3,1,1,2]]
   SubTable , SubTableInv = makeSubTables()
   Rc = [1,2,4,8,16,32,64,128,27,54]
   RCon = Rc.each.map{|x| [x.to_s(2),'0'*8,'0'*8,'0'*8]}
-  @W =[]
+
+
 
   # Gets rc for Round constant RCon = [rc 0 0 0] for 128 bit key
   def self.get_rc(i,rc)
@@ -367,7 +366,7 @@ class AES
   #  Multiply method that will be used. Uses xor instead of + and mul function instead of '*'
   #  mul function is some complex stuff but  it works
   #  Helper for mix column
-  #
+  # a is always matrix with bitstrings while b is InvMixColMatrix or MixColMat
   def self.multiply(a,b)
     if(a.column_size != b.row_size )
       throw "Multiplication error"
